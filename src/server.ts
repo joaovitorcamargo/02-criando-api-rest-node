@@ -5,21 +5,25 @@ import { knex } from './database'
 const app = fastify()
 
 app.get('/create', async () => {
-  const transaction = await knex('transactions')
+  const transactions = await knex('transactions')
     .insert({
       id: crypto.randomUUID(),
       title: 'Meu Primeiro titulo',
+
       amount: 1000,
     })
     .returning('*')
 
-  return transaction
+  return transactions
 })
 
 app.get('/select', async () => {
   const transactions = await knex('transactions').select('*')
 
-  return transactions
+  return {
+    data: transactions,
+    count_result: transactions.length,
+  }
 })
 
 app
