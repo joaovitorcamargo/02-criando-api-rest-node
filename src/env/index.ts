@@ -9,11 +9,14 @@ if (process.env.NODE_ENV === 'test') {
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
-  DATABASE_CLIENT: z.string(),
+  DATABASE_CLIENT: z.enum(['mysql2', 'pg']),
+  DATABASE_URL: z.string(),
   DATABASE_HOST: z.string(),
   DATABASE_USER: z.string(),
   DATABASE_PORT: z.number().default(3307),
-  PORT: z.string().default('8000'),
+  DATABASE_PORT_PROD: z.coerce.number().default(3306),
+  DATABASE_PORT_LOCAL: z.coerce.number().default(3307),
+  PORT: z.coerce.number().default(8000),
   DATABASE_PASSWORD: z.string(),
   DATABASE_SCHEMA: z.string(),
 })
