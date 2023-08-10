@@ -1,20 +1,12 @@
-import { knex as setupKnex, Knex } from 'knex'
+import { Knex, knex as setupKnex } from 'knex'
 import { env } from './env'
-
-if (!process.env.DATABASE_HOST) {
-  throw new Error('DATABASE_HOST env not found')
-}
 
 export const config: Knex.Config = {
   client: env.DATABASE_CLIENT,
   connection:
-    env.DATABASE_CLIENT === 'mysql2'
+    env.DATABASE_CLIENT === 'sqlite'
       ? {
-          host: env.DATABASE_HOST,
-          port: Number(env.DATABASE_PORT),
-          user: env.DATABASE_USER,
-          password: env.DATABASE_PASSWORD,
-          database: env.DATABASE_SCHEMA,
+          filename: env.DATABASE_URL,
         }
       : env.DATABASE_URL,
   useNullAsDefault: true,
